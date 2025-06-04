@@ -1,13 +1,10 @@
 #!/bin/bash
-
 cd /home/site/wwwroot/RecSys
 source /home/site/wwwroot/venv/bin/activate
 
-# Force installation of all dependencies including pandas
+# Install dependencies to ensure everything is loaded properly
 pip install --no-cache-dir --user --force-reinstall -r requirements.txt
 
-# Log installed packages
-pip list | tee /home/logs/packages.log
+# Optimize Gunicorn settings for Azure
+exec gunicorn --bind 0.0.0.0:8000 --timeout 300 --workers 1 --worker-class=sync --log-level debug --access-logfile /home/logs/access.log --error-logfile /home/logs/error.log app:app
 
-# Start Gunicorn
-exec gunicorn --bind 0.0.0.0:8000 --timeout 120 --workers 2 app:app

@@ -11,17 +11,24 @@ exec > >(tee -a /home/logs/startup.log) 2>&1
 echo "=== Startup Script Begin ==="
 date
 
-# Install dependencies (critical for Azure Free Tier!)
+# Install dependencies with explicit paths
 echo "Installing dependencies..."
 /opt/python/3.9.22/bin/python -m pip install --upgrade pip
-/opt/python/3.9.22/bin/python -m pip install --no-cache-dir -r requirements.txt
+/opt/python/3.9.22/bin/python -m pip install --no-cache-dir --user -r requirements.txt
 
-# Start Gunicorn
+# Verify installation
+echo "Installed packages:"
+/opt/python/3.9.22/bin/python -m pip list >> /home/logs/startup.log
+
+# Start Gunicorn with preload
 echo "Starting Gunicorn..."
 exec /opt/python/3.9.22/bin/gunicorn \
   --bind 0.0.0.0:8000 \
-  --timeout 600 \
-  --access-logfile - \
-  --error-logfile - \
+  --timeout 900 \
+  --preload \  # Load app before forking
   --workers 1 \
+  --worker-class=sync \
+  --log-level debug \
+  --access-logfile /home/logs/access.log \
+  --error-logfile /home/logs/error.log \
   RecSys.app:app

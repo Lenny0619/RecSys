@@ -33,6 +33,11 @@ retrain_svd()
 scheduler = BackgroundScheduler()
 scheduler.add_job(retrain_svd, 'interval', days=2)
 scheduler.start()
+
+@app.route('/health')
+def health_check():
+    """Endpoint for health checks"""
+    return jsonify({"status": "healthy"}), 200
     
 @app.route('/test-db-connection')
 def test_db_connection():

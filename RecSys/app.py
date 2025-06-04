@@ -39,13 +39,13 @@ def health_check():
     """Endpoint for health checks"""
     return jsonify({"status": "healthy"}), 200
     
-@app.route('/test-db-connection')
 def test_db_connection():
-    result = load_data()
-    if result:
-        return jsonify({"status": "success", "message": "DB connected and data loaded"})
-    else:
-        return jsonify({"status": "fail", "message": "DB connection or data loading failed"}), 500
+    try:
+        with engine.connect() as connection:
+            result = connection.execute("SELECT 1")
+            return f"DB connection successful! Test result: {result.scalar()}"
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 @app.route('/retrain', methods=['POST'])
 def retrain_model():

@@ -5,7 +5,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from sqlalchemy import create_engine, text
 from apscheduler.schedulers.background import BackgroundScheduler
-from RecSys.HybridRecommendation import recommend_supervisors, train_svd, load_data
+from HybridRecommendation import recommend_supervisors, train_svd, load_data
 
 app = Flask(__name__)
 CORS(app)

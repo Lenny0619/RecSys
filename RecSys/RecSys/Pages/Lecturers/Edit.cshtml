@@ -1,0 +1,104 @@
+@page
+@model RecSys.Pages_Lecturers.EditModel
+
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = Model.Lecturer.SvId == 0 ? "Create Lecturer" : "Edit Lecturer";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<a asp-page="Index" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to List
+</a>
+
+<div class="form-container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Lecturer.SvId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Lecturer.SvId" />
+                <input type="hidden" asp-for="Lecturer.ImagePath" />
+
+                <div class="form-group">
+                    <label asp-for="Lecturer.SvName" class="control-label">Name</label>
+                    <input asp-for="Lecturer.SvName" class="form-control" />
+                    <span asp-validation-for="Lecturer.SvName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Lecturer.SvExpertise" class="control-label">Expertise</label>
+                    <input asp-for="Lecturer.SvExpertise" class="form-control" />
+                    <span asp-validation-for="Lecturer.SvExpertise" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Lecturer.Eligibility" class="control-label">Eligibility</label>
+                    <select asp-for="Lecturer.Eligibility" class="form-control">
+                        <option value="1">Eligible (1)</option>
+                        <option value="0">Not Eligible (0)</option>
+                    </select>
+                    <span asp-validation-for="Lecturer.Eligibility" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Lecturer.Email" class="control-label">Email</label>
+                    <input asp-for="Lecturer.Email" class="form-control" />
+                    <span asp-validation-for="Lecturer.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    @if (Model.Lecturer.SvId != 0 && !string.IsNullOrEmpty(Model.Lecturer.ImagePath))
+                    {
+                        <label class="control-label">Current Image</label>
+                        <img src="@Model.Lecturer.ImagePath" class="img-thumbnail" style="max-height: 200px; display: block; margin-bottom: 10px;" />
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="removeImage" name="removeImage" value="true">
+                            <label class="form-check-label" for="removeImage">Remove current image</label>
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        @(Model.Lecturer.SvId == 0 ? "Lecturer Image (Required)" : "Update Image (Optional)")
+                    </label>
+                    <input type="file" id="ImageUpload" name="ImageUpload" class="form-control" accept="image/*" />
+                    @if (Model.Lecturer.SvId == 0)
+                    {
+                        <small class="form-text text-muted">You must upload an image for new lecturers</small>
+                    }
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> @(Model.Lecturer.SvId == 0 ? "Create" : "Save Changes")
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Client-side validation to make image required only for new lecturers
+        document.getElementById('lecturerForm').addEventListener('submit', function(e) {
+            if (@Model.Lecturer.SvId == 0) {
+                const fileInput = document.getElementById('ImageUpload');
+                if (fileInput.files.length === 0) {
+                    e.preventDefault();
+                    alert('Please upload an image for the new lecturer');
+                    fileInput.focus();
+                }
+            }
+        });
+    </script>
+}

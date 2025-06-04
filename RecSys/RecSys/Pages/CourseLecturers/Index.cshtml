@@ -1,0 +1,66 @@
+@page
+@model RecSys.Pages_CourseLecturers.IndexModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Course-Lecturer Relationships";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="table-container">
+    <p>
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New
+        </a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Lecturer</th>
+                <th>Course</th>
+                <th>Year</th>
+                <th>Semester</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CourseLecturer)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Sv.SvName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Course.CourseName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Sem)</td>
+                    <td>
+                        <a asp-page="./Edit"
+                           asp-route-svId="@item.SvId"
+                           asp-route-courseId="@item.CourseId"
+                           asp-route-year="@item.Year"
+                           asp-route-sem="@item.Sem"
+                           class="btn btn-sm btn-primary">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-page="./Details"
+                           asp-route-svId="@item.SvId"
+                           asp-route-courseId="@item.CourseId"
+                           asp-route-year="@item.Year"
+                           asp-route-sem="@item.Sem"
+                           class="btn btn-sm btn-info">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a asp-page="./Delete"
+                           asp-route-svId="@item.SvId"
+                           asp-route-courseId="@item.CourseId"
+                           asp-route-year="@item.Year"
+                           asp-route-sem="@item.Sem"
+                           class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

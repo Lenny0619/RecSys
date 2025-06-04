@@ -1,0 +1,183 @@
+﻿/* Background */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0b132b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Form box styling */
+.form-box {
+    background-color: #606f7b;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    text-align: center;
+    box-shadow: 1px 1px 20px yellow;
+}
+
+/* Styled input fields */
+.wrap-input-1 .input {
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    background-color: #f5f6fd;
+    border: 1px solid #ccc;
+    padding: 4px 14px 9px;
+    transition: 0.4s;
+}
+
+    .wrap-input-1 .input:focus {
+        outline: none;
+    }
+
+.wrap-input-1 {
+    width: 90%;
+    margin: 40px 3% 20px 5%;
+    position: relative;
+}
+
+    .wrap-input-1 .input ~ .focus-border:before,
+    .wrap-input-1 .input ~ .focus-border:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 2px;
+        background-color: #6c5dd3;
+        transition: 0.2s;
+        transition-delay: 0.2s;
+    }
+
+    .wrap-input-1 .input ~ .focus-border:after {
+        top: auto;
+        bottom: 0;
+        right: auto;
+        left: 0;
+        transition-delay: 0.6s;
+    }
+
+    .wrap-input-1 .input ~ .focus-border i:before,
+    .wrap-input-1 .input ~ .focus-border i:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2px;
+        height: 0;
+        background-color: #6c5dd3;
+        transition: 0.2s;
+    }
+
+    .wrap-input-1 .input ~ .focus-border i:after {
+        left: auto;
+        right: 0;
+        top: auto;
+        bottom: 0;
+        transition-delay: 0.4s;
+    }
+
+    .wrap-input-1 .input:focus ~ .focus-border:before,
+    .wrap-input-1 .input:focus ~ .focus-border:after {
+        width: 100%;
+        transition: 0.2s;
+        transition-delay: 0.6s;
+    }
+
+    .wrap-input-1 .input:focus ~ .focus-border:after {
+        transition-delay: 0.2s;
+    }
+
+    .wrap-input-1 .input:focus ~ .focus-border i:before,
+    .wrap-input-1 .input:focus ~ .focus-border i:after {
+        height: 100%;
+        transition: 0.2s;
+    }
+
+    .wrap-input-1 .input:focus ~ .focus-border i:after {
+        transition-delay: 0.4s;
+    }
+
+/* Select dropdown styling */
+select {
+    width: 90%;
+    padding: 8px;
+    margin: 2px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: #f5f6fd;
+    color: #333;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* Button styling */
+.btn-gradient-20 {
+    border: 5em;
+    cursor: pointer;
+    outline: none;
+    font-size: 16px;
+    -webkit-transform: translate(0);
+    transform: translate(0);
+    background-image: linear-gradient(45deg, #4568dc, #b06ab3);
+    padding: 0.7em 2em;
+    border-radius: 65px;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-gradient-20 .text {
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(45deg, #4568dc, #b06ab3);
+}
+
+.btn-gradient-20:after {
+    content: "";
+    border-radius: 18px;
+    position: absolute;
+    margin: 4px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background: #0e0e10;
+}
+
+.btn-gradient-20:hover {
+    background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+    box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+}
+
+.btn-gradient-20:hover .text {
+    background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+}
+
+.preferred-course-title {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.project-focus-title {
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 30px;
+}

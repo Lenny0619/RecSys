@@ -1,0 +1,75 @@
+# Python virtual environments
+.venv/
+env/
+venv/
+myflaskenv/
+surprise-env/
+RecSys/RecSys/venv/
+RecSys/RecSys/.venv/
+RecSys/RecSys/RecSys/.venv/
+RecSys/RecSys/RecSys/venv/
+
+
+# Ignore virtual environment installed packages
+Lib/
+Scripts/
+Include/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+*.dll
+*.pdb
+*.exe
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temp and backup files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Duplicate project folders
+docker file/
+
+# Model files and large data
+*.pkl
+*.h5
+*.pt
+*.ckpt
+*.joblib
+*.csv
+*.json
+*.xlsx
+
+# Git LFS tracked but not committed files
+*.tar
+*.zip
+*.dll
+*.pyd
+**/*.dll
+**/*.pyd
+**/*.csv
+
+appsettings*.json
+Properties/launchSettings.json
+RecSys SQLite.db
+
+RecSys/RecSys/.venv/
+wwwroot/lib/

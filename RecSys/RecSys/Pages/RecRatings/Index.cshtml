@@ -1,0 +1,75 @@
+@page
+@model RecSys.Pages_RecRatings.IndexModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Recommendation Ratings";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="table-container">
+    <table class="table table-layout-fixed">
+        <thead>
+            <tr>
+                <th style="width: 10%">Rating ID</th>
+                <th style="width: 10%">History ID</th>
+                <th style="width: 25%">Lecturer</th>
+                <th style="width: 10%">Rating</th>
+                <th style="width: 25%">Submitted At</th>
+                <th style="width: 20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RecRating)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.RatingId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.History.HistoryId)</td>
+                    <td>
+                        @{
+                            var lecturer = Model.Lecturers.FirstOrDefault(l => l.SvId == item.RecommendedLecturerId);
+                            @(lecturer?.SvName ?? $"ID: {item.RecommendedLecturerId}")
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.SubmittedRating)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SubmittedAt)</td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a asp-page="./Edit" asp-route-id="@item.RatingId" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-page="./Details" asp-route-id="@item.RatingId" class="btn btn-sm btn-info">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@item.RatingId" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table-layout-fixed {
+        table-layout: fixed;
+    }
+
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .d-flex.gap-1 {
+        gap: 0.25rem;
+    }
+</style>

@@ -1,0 +1,51 @@
+@page
+@model RecSys.Pages_PastStudentsChoices.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Past Student Choice Details";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div>
+        <h4>Student Choice Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Student ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastStudentsChoice.StudentId)
+            </dd>
+            <dt class="col-sm-2">
+                Lecturer ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastStudentsChoice.SvId)
+            </dd>
+            <dt class="col-sm-2">
+                Project Focus
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastStudentsChoice.ProjectFocus)
+            </dd>
+            <dt class="col-sm-2">
+                Rating
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastStudentsChoice.Rating)
+            </dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-page="./Edit" asp-route-id="@Model.PastStudentsChoice?.StudentId" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        <a asp-page="./Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

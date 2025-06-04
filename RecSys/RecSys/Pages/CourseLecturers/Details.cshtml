@@ -1,0 +1,55 @@
+@page "{svId}/{courseId}/{year}/{sem}"
+@model RecSys.Pages_CourseLecturers.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Course-Lecturer Details";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div>
+        <h4>Course-Lecturer Relationship</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Course
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseLecturer.Course.CourseName) (ID: @Html.DisplayFor(model => model.CourseLecturer.Course.CourseId))
+            </dd>
+            <dt class="col-sm-2">
+                Lecturer
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseLecturer.Sv.SvName) (ID: @Html.DisplayFor(model => model.CourseLecturer.Sv.SvId))
+            </dd>
+            <dt class="col-sm-2">
+                Year
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseLecturer.Year)
+            </dd>
+            <dt class="col-sm-2">
+                Semester
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseLecturer.Sem)
+            </dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-page="./Edit" asp-route-id="@Model.CourseLecturer.SvId"
+           asp-route-courseId="@Model.CourseLecturer.CourseId"
+           asp-route-year="@Model.CourseLecturer.Year"
+           asp-route-sem="@Model.CourseLecturer.Sem"
+           class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        <a asp-page="./Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

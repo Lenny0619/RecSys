@@ -1,0 +1,345 @@
+﻿@page
+@model LecturerDetailsModel
+@{
+    Layout = "_Layout_NoNavbar";
+    ViewData["Title"] = "Lecturer Details";
+}
+
+<link rel="stylesheet" href="~/css/lecturerdetails.css?v=1.0.4" />
+
+<div class="btn-back-wrapper">
+    <a href="javascript:history.back()" class="btn-back">&lt; Back</a>
+    @if (Model.CurrentRatingCount >= 2)
+    {
+        <a href="#" class="btn-finish">Finish</a>
+    }
+</div>
+
+<div class="rating-progress">
+    <p>Hi there! You're encouraged to rate all recommended lecturers based on your impression!</p>
+    <p>@Model.CurrentRatingCount out of @Model.TotalLecturersToRate lecturers rated</p>
+</div>
+
+<div class="main-content">
+    <div class="lecturer-container">
+        <div class="image-container">
+            <img src="@(string.IsNullOrEmpty(Model.Lecturer.ImagePath) ? "/images/default-profile.png" : Model.Lecturer.ImagePath)"
+                 class="lecturer-image"
+                 alt="@Model.Lecturer.SvName">
+        </div>
+        <div class="info-container">
+            <h2>@Model.Lecturer.SvName</h2>
+            <p><strong>Expertise:</strong> @Model.Lecturer.SvExpertise</p>
+            <p><strong>Email:</strong> <a href="mailto:@Model.Lecturer.Email">@Model.Lecturer.Email</a></p>
+
+            <div class="metric-box">
+                <p>
+                    <strong>Rating:</strong><span class="metric-value">@Model.Lecturer.PredictedRating.ToString("0.00")</span>
+                </p>
+                <p>
+                    <strong>Similarity Score:</strong><span class="metric-value">@Model.Lecturer.CosineSimilarity.ToString("0.00")</span>
+                </p>
+            </div>
+
+            <!-- Success/Error message popup -->
+            <div id="messagePopup" class="message-popup" style="display: none;">
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <p id="popupMessage"></p>
+                </div>
+            </div>
+            <div id="thankYouPopup" class="message-popup" style="display: none;">
+                <div class="popup-content">
+                    <p class="success-message">Thank you for using this system!</p>
+                    <p>You will be redirected shortly...</p>
+                </div>
+            </div>
+
+            <form method="post" asp-page-handler="SubmitRating" id="ratingForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Lecturer.SvId" />
+                <input type="hidden" asp-for="HistoryId" />
+                <input type="hidden" asp-for="RatingValue" id="ratingValue" value="0" />
+                <input type="hidden" asp-for="Lecturer.CosineSimilarity" />
+
+                <label for="rating">Rate this Lecturer:</label>
+                <p><strong>Note:</strong> Caution! Please rate the lecturers sincerely. These ratings help improve future recommendations and should not be given randomly or for fun.</p>
+                <div class="star-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <span class="star" data-value="@i">&#9733;</span>
+                    }
+                </div>
+                <button type="button" id="submitRatingBtn" class="btn-submit" disabled>Submit Rating</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                document.getElementById('ratingValue').value = value;
+
+                // Update star display
+                document.querySelectorAll('.star').forEach(s => {
+                    s.style.color = s.getAttribute('data-value') <= value ? 'gold' : 'gray';
+                });
+
+                // Enable submit button once a rating is selected
+                document.getElementById('submitRatingBtn').disabled = false;
+            });
+        });
+
+        // Show popup message
+        function showPopupMessage(message, isSuccess) {
+            const popup = document.getElementById('messagePopup');
+            const popupMessage = document.getElementById('popupMessage');
+
+            popupMessage.textContent = message;
+            popup.style.display = 'block';
+
+            // Apply success or error styling
+            if (isSuccess) {
+                popupMessage.className = 'success-message';
+            } else {
+                popupMessage.className = 'error-message';
+            }
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        // Close popup when clicking the X
+        document.querySelector('.close-popup').addEventListener('click', function() {
+            document.getElementById('messagePopup').style.display = 'none';
+        });
+
+        function showThankYouPopup() {
+            const popup = document.getElementById('thankYouPopup');
+            popup.style.display = 'block';
+
+            // Clear all rating-related storage
+            sessionStorage.removeItem('ratedCount');
+
+            setTimeout(() => {
+                window.location.href = '/Index';
+            }, 3500);
+        }
+
+        // Modify the submit button event listener
+        document.getElementById('submitRatingBtn').addEventListener('click', async function(e) {
+            this.disabled = true;
+
+            try {
+                const formData = new FormData(document.getElementById('ratingForm'));
+                const currentCount = sessionStorage.getItem('ratedCount') || @Model.CurrentRatingCount;
+                formData.append('currentRatingCount', currentCount);
+
+                const response = await fetch('?handler=SubmitRating', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showPopupMessage(result.message, true);
+
+                    // Update UI
+                    if (result.newRating) {
+                        document.querySelector('.metric-value').textContent = result.newRating.toFixed(2);
+                    }
+
+                    // Reset stars
+                    document.querySelectorAll('.star').forEach(s => s.style.color = 'gray');
+                    document.getElementById('ratingValue').value = '0';
+
+                    // Ensure we have valid total count
+                    const totalToRate = result.totalLecturersToRate || @Model.TotalLecturersToRate || 8;
+
+                    // Update progress display
+                    const newCount = result.currentRatingCount;
+                    document.querySelector('.rating-progress p:last-child').textContent =
+                        `Progress: ${newCount} out of ${totalToRate} lecturers rated`;
+
+                    // Store the updated count in sessionStorage
+                    sessionStorage.setItem('ratedCount', newCount);
+                    sessionStorage.setItem('totalLecturersToRate', totalToRate);
+
+                    // Auto-navigate back if less than 2 rated and there are more to rate
+                    if (result.shouldGoBack) {
+                        setTimeout(() => {
+                            window.history.back();
+                        }, 1500);
+                    }
+                    // Auto-redirect to Index if all lecturers rated or at least 2 rated
+                    else if (result.shouldRedirectToIndex || (newCount >= totalToRate)) {
+                        setTimeout(() => {
+                            showThankYouPopup();
+                        }, 3000);
+                    }
+
+                    // Show finish button if at least 2 rated
+                    if (result.showFinishButton) {
+                        const backWrapper = document.querySelector('.btn-back-wrapper');
+                        if (!backWrapper.querySelector('.btn-finish')) {
+                            const finishBtn = document.createElement('a');
+                            finishBtn.href = '#';
+                            finishBtn.className = 'btn-finish';
+                            finishBtn.textContent = 'Finish';
+                            finishBtn.onclick = function(e) {
+                                e.preventDefault();
+                                showThankYouPopup();
+                                return false;
+                            };
+                            backWrapper.appendChild(finishBtn);
+                        }
+                    }
+                } else {
+                    showPopupMessage(result.message, false);
+                    this.disabled = false;
+                }
+            } catch (error) {
+                showPopupMessage('An error occurred', false);
+                this.disabled = false;
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedCount = sessionStorage.getItem('ratedCount') || @Model.CurrentRatingCount;
+            const storedTotal = sessionStorage.getItem('totalLecturersToRate') || @Model.TotalLecturersToRate;
+
+            document.querySelector('.rating-progress p:last-child').textContent =
+                `Progress: ${storedCount} out of ${storedTotal} lecturers rated`;
+
+            const existingFinishBtn = document.querySelector('.btn-finish');
+            if (existingFinishBtn) {
+                existingFinishBtn.onclick = function(e) {
+                    e.preventDefault();
+                    showThankYouPopup();
+                    return false;
+                };
+            }
+        });
+    </script>
+}
+
+<style>
+    /* Submit button styling to match back button */
+    .btn-submit {
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 0.5em 1.5em;
+        border: none;
+        border-radius: 50px;
+        background-color: #8c52ff;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin-top: 15px;
+    }
+
+        .btn-submit:hover {
+            background-color: #7b45e6;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+    /* Popup styling */
+    .message-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+
+    .popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        position: relative;
+        min-width: 300px;
+        text-align: center;
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .success-message {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .rating-progress {
+        background-color: #f8f9fa;
+        padding: 8px 15px;
+        border-radius: 5px;
+        margin: 5px 0;
+        text-align: center;
+        border-left: 4px solid #8c52ff;
+    }
+
+    .btn-finish {
+        display: inline-flex; /* Changed from inline-block */
+        align-items: center; /* Center text vertically */
+        justify-content: center; /* Center text horizontally */
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 0.5em 1.5em;
+        border: none;
+        border-radius: 50px;
+        background-color: #28a745;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, box-shadow 0.3s;
+        height: 100%; /* Take full height of container */
+        margin-left: 10px;
+    }
+
+        /* Keep all existing hover effects */
+        .btn-finish:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+    .btn-back-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* Add this to vertically center items */
+        margin-bottom: 20px;
+        height: 40px; /* Set a fixed height for consistent alignment */
+    }
+</style>

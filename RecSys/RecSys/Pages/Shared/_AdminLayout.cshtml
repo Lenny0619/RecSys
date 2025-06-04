@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/admindashboard.css" />
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar d-flex flex-column">
+            <div class="logo">
+                <a asp-page="/AdminDashboard" class="text-decoration-none text-white">
+                    <img src="~/admin-icon.png" alt="Admin Logo">
+                    <span>Admin Panel</span>
+                </a>
+            </div>
+            <ul class="nav flex-column flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Lecturers/Index">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="nav-text">Manage Lecturers</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Courses/Index">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-text">Manage Courses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/CourseLecturers/Index">
+                        <i class="fas fa-link"></i>
+                        <span class="nav-text">Manage CourseLecturer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/PastStudentsChoices/Index">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-text">Past Students Info</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/RecHistories/Index">
+                        <i class="fas fa-history"></i>
+                        <span class="nav-text">Manage RecHistory</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/RecRatings/Index">
+                        <i class="fas fa-star"></i>
+                        <span class="nav-text">Manage RecRatings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Logout Button at Bottom -->
+            <div class="mt-auto p-3">
+                <button class="btn btn-danger w-100" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "/Index";
+            }
+        }
+    </script>
+</body>
+</html>

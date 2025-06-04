@@ -1,0 +1,179 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model ResultPageModel
+
+@{
+    ViewData["Title"] = "Top 3 Recommendations";
+    var courseList = Request.Query["courseNames"];
+    var projectFocus = Request.Query["projectFocus"];
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top 3 Recommendations</title>
+    <link rel="icon" href="/lib/icon.png" type="image/png" />
+    <link rel="stylesheet" href="/css/resultpage.css?v=1.0.19" />
+</head>
+<body>
+    <div class="container">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Error"]
+            </div>
+        }
+        <h1>Your Top 3 Recommended Lecturers</h1>
+
+        <div class="summary">
+            <p><strong>Your Project Focus:</strong> @projectFocus</p>
+            <p><strong>Your Preferred Courses:</strong> @(string.Join(", ", courseList))</p>
+        </div>
+
+        @if (Model.Lecturers.Count == 0)
+        {
+            <div class="no-result">
+                <p>No recommendations available.</p>
+                <p>Try selecting different courses or a different project focus.</p>
+            </div>
+        }
+        else
+        {
+            <!-- Top 3 Lecturers -->
+            <div class="card-container card-row">
+                @for (int i = 0; i < 3 && i < Model.Lecturers.Count; i++)
+                {
+                    var lecturer = Model.Lecturers[i];
+                    <div class="card">
+                        @if (lecturer.CosineSimilarity > 0)
+                        {
+                            <div class="pro-badge">Pro</div>
+                        }
+                        <div class="card-top">
+                            <a href="/LecturerDetails?id=@lecturer.SvId
+                            &historyId=@Model.HistoryId
+                            &name=@Uri.EscapeDataString(lecturer.SvName)
+                            &imagePath=@Uri.EscapeDataString(lecturer.ImagePath)
+                            &email=@Uri.EscapeDataString(lecturer.Email)
+                            &expertise=@Uri.EscapeDataString(lecturer.SvExpertise)
+                            &cosineSimilarity=@lecturer.CosineSimilarity
+                            &predictedRating=@lecturer.PredictedRating
+                            &taughtCourse=@Uri.EscapeDataString(lecturer.TaughtCourse)
+                            &currentRatingCount=@Model.RatedCount
+                            &totalLecturersToRate=@(ViewData["TotalLecturersToRate"] ?? Model.Lecturers.Count)">
+                                <img class="round"
+                                     src="@(string.IsNullOrEmpty(lecturer.ImagePath) ? "/images/default-profile.png" : lecturer.ImagePath)"
+                                     alt="Lecturer Image" />
+                            </a>
+                            <h3>@lecturer.SvName</h3>
+                        </div>
+                        <div class="card-bottom">
+                            <p class="expertise"><strong>Expertise:</strong> @lecturer.SvExpertise</p>
+                            <p class="taught-course"><strong>Teaches Your Preferred Course(s):</strong> @lecturer.TaughtCourse</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Other Recommendations -->
+            @if (Model.Lecturers.Count > 3)
+            {
+                <hr class="section-divider" />
+                <p class="reference-note">This is an additional reference list. You may consider the following lecturers if the top 3 recommended ones are unavailable.</p>
+                <div class="card-container">
+                    @for (int i = 3; i < Model.Lecturers.Count; i++)
+                    {
+                        var lecturer = Model.Lecturers[i];
+                        <div class="card">
+                            @if (lecturer.CosineSimilarity > 0)
+                            {
+                                <div class="pro-badge">Pro</div>
+                            }
+                            <div class="card-top">
+                                <a href="/LecturerDetails?id=@lecturer.SvId
+                                &historyId=@Model.HistoryId
+                                &name=@Uri.EscapeDataString(lecturer.SvName)
+                                &imagePath=@Uri.EscapeDataString(lecturer.ImagePath)
+                                &email=@Uri.EscapeDataString(lecturer.Email)
+                                &expertise=@Uri.EscapeDataString(lecturer.SvExpertise)
+                                &cosineSimilarity=@lecturer.CosineSimilarity
+                                &predictedRating=@lecturer.PredictedRating
+                                &taughtCourse=@Uri.EscapeDataString(lecturer.TaughtCourse)
+                                &currentRatingCount=@Model.RatedCount
+                                &totalLecturersToRate=@(ViewData["TotalLecturersToRate"] ?? Model.Lecturers.Count)">
+                                    <img class="round"
+                                         src="@(string.IsNullOrEmpty(lecturer.ImagePath) ? "/images/default-profile.png" : lecturer.ImagePath)"
+                                         alt="Lecturer Image" />
+                                </a>
+                                <h3>@lecturer.SvName</h3>
+                            </div>
+                            <div class="card-bottom">
+                                <p class="expertise"><strong>Expertise:</strong> @lecturer.SvExpertise</p>
+                                <p class="taught-course"><strong>Teaches Your Preferred Course(s):</strong> @lecturer.TaughtCourse</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        <div class="btn-back-wrapper">
+            <a href="/Index" class="btn-back">Back</a>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            // Re-apply flexbox if needed
+            const container = document.querySelector('.card-container');
+            if (container) {
+                container.style.display = 'none';
+                setTimeout(() => {
+                    container.style.display = 'flex';
+                }, 10);
+            }
+
+            // Store the server-side ratedCount in sessionStorage
+            const serverRatedCount = @Model.RatedCount;
+            if (serverRatedCount > 0) {
+                sessionStorage.setItem('ratedCount', serverRatedCount);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Store all lecturer data when clicking a card
+            document.querySelectorAll('.card a').forEach(link => {
+                link.addEventListener('click', function() {
+                    const card = this.closest('.card');
+                    const lecturerId = this.href.split('id=')[1].split('&')[0];
+                    const cosineSim = card.querySelector('.cosine-value').textContent;
+
+                    localStorage.setItem('lecturer_' + lecturerId, JSON.stringify({
+                        cosineSimilarity: cosineSim,
+                        lastUpdated: new Date().toISOString()
+                    }));
+                });
+            });
+        });
+
+        // Restore values when returning via back button
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                document.querySelectorAll('.card').forEach(card => {
+                    const lecturerId = card.querySelector('a').href.split('id=')[1].split('&')[0];
+                    const savedData = localStorage.getItem('lecturer_' + lecturerId);
+
+                    if (savedData) {
+                        const data = JSON.parse(savedData);
+                        const cosineElement = card.querySelector('.cosine-value');
+                        if (cosineElement) {
+                            cosineElement.textContent = data.cosineSimilarity;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

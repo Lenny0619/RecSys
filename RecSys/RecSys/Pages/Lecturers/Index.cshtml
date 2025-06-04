@@ -1,0 +1,81 @@
+@page
+@model RecSys.Pages_Lecturers.IndexModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Lecturers";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="table-container">
+    <p>
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New
+        </a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].SvId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].SvName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].SvExpertise)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].Eligibility)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lecturer[0].ImagePath)
+                </th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.Lecturer) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SvId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SvName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SvExpertise)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Eligibility)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImagePath)
+                </td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a asp-page="./Edit" asp-route-id="@item.SvId" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-page="./Details" asp-route-id="@item.SvId" class="btn btn-sm btn-info">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@item.SvId" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

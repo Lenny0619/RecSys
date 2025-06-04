@@ -1,0 +1,48 @@
+@page
+@model RecSys.Pages_RecHistories.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Recommendation History Details";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div>
+        <h4>History Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Anonymous ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RecHistory.AnonymousId)
+            </dd>
+            <dt class="col-sm-2">
+                Preferred Courses
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RecHistory.PreferredCourses)
+            </dd>
+            <dt class="col-sm-2">
+                Project Focus
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RecHistory.ProjectFocus)
+            </dd>
+            <dt class="col-sm-2">
+                Submitted At
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RecHistory.SubmittedAt)
+            </dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-page="./Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

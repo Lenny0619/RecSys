@@ -1,0 +1,67 @@
+@page
+@model RecSys.Pages_RecRatings.EditModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Recommendation Rating";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" id="editForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <!-- Use asp-for for hidden inputs so model binding works -->
+                <input type="hidden" asp-for="RecRating.RatingId" />
+                <input type="hidden" asp-for="RecRating.HistoryId" />
+                <input type="hidden" asp-for="RecRating.RecommendedLecturerId" />
+
+                <div class="form-group">
+                    <label class="control-label">History ID</label>
+                    <input asp-for="RecRating.HistoryId" class="form-control" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Lecturer Name</label>
+                    <input class="form-control" value="@Model.LecturerName" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RecRating.SubmittedRating" class="control-label">Rating (1-5)</label>
+                    <input asp-for="RecRating.SubmittedRating" class="form-control" type="number" min="1" max="5" />
+                    <span asp-validation-for="RecRating.SubmittedRating" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a asp-page="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#editForm').on('submit', function() {
+                $('#saveButton').prop('disabled', true);
+                $('#saveButton').html('<i class="fas fa-spinner fa-spin"></i> Saving...');
+            });
+
+            // Debugging - log form data
+            $('#editForm').submit(function(e) {
+                console.log('Form submitting with data:', $(this).serialize());
+            });
+        });
+    </script>
+}

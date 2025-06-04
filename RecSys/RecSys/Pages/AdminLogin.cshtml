@@ -1,0 +1,109 @@
+﻿@page
+@model AdminLoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <style>
+        body {
+            background: url('/background.png') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #f4f4f4;
+            font-family: Arial;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            margin: auto;
+            width: 280px;
+        }
+
+        /* Updated navbar styles */
+        .navbar {
+            background-color: #343a40;
+            padding: 9px 0; /* Reduced padding to move bar higher */
+            margin-top: -11px; /* Pulls the navbar up slightly */
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: normal;
+            font-size: 1.2rem;
+            margin-top: 9px; /* Optional: adjust font size if needed */
+        }
+
+        .main-content {
+            margin-top: 80px; /* Adjusted to match new navbar height */
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Custom login button styles */
+        .btn-login {
+            background-color: #6a0dad;
+            border-color: #6a0dad;
+            color: white;
+        }
+
+            .btn-login:hover {
+                background-color: #5a0b9d;
+                border-color: #5a0b9d;
+            }
+    </style>
+</head>
+<body>
+    <header class="navbar-fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-page="/Index">Supervisor Recommendation System</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <form method="post">
+                <div class="form-group">
+                    <input asp-for="Username" class="form-control" placeholder="Username" />
+                </div>
+                <div class="form-group mt-3">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-login w-100">Login</button>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger mt-3">@Model.ErrorMessage</div>
+                }
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

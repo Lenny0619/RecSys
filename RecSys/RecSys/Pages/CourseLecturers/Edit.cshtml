@@ -1,0 +1,67 @@
+@page "{svId}/{courseId}/{year}/{sem}"
+@model RecSys.Pages_CourseLecturers.EditModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Course-Lecturer Relationship";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Hidden fields for the original composite key -->
+                <input type="hidden" asp-for="OriginalSvId" />
+                <input type="hidden" asp-for="OriginalCourseId" />
+                <input type="hidden" asp-for="OriginalYear" />
+                <input type="hidden" asp-for="OriginalSem" />
+
+                <!-- Display (not editable) Lecturer Info -->
+                <div class="form-group">
+                    <label class="control-label">Lecturer</label>
+                    <input class="form-control" value="@ViewData["LecturerName"]" readonly />
+                </div>
+
+                <!-- Display (not editable) Course Info -->
+                <div class="form-group">
+                    <label class="control-label">Course</label>
+                    <input class="form-control" value="@ViewData["CourseName"]" readonly />
+                </div>
+
+                <!-- Editable Year -->
+                <div class="form-group">
+                    <label asp-for="CourseLecturer.Year" class="control-label"></label>
+                    <input asp-for="CourseLecturer.Year" class="form-control" min="1" required />
+                    <span asp-validation-for="CourseLecturer.Year" class="text-danger"></span>
+                </div>
+
+                <!-- Editable Semester -->
+                <div class="form-group">
+                    <label asp-for="CourseLecturer.Sem" class="control-label">Semester</label>
+                    <input asp-for="CourseLecturer.Sem" class="form-control" min="1" max="3" required />
+                    <span asp-validation-for="CourseLecturer.Sem" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a asp-page="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

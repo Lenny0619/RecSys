@@ -1,0 +1,51 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    overscroll-behavior: none;
+}
+
+body {
+    background-image: url('/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* Custom styles for fixed navbar */
+.navbar-fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+
+.navbar-fixed-top .navbar {
+    background-color: #333; /* Dark background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-fixed-top .nav-link:hover {
+    background-color: #555; /* Hover effect */
+    border-radius: 5px;
+}
+
+.main-content {
+    margin-top: 80px; /* Adjust to make space for fixed navbar */
+}

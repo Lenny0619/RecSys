@@ -1,0 +1,52 @@
+@page
+@model RecSys.Pages_RecRatings.DeleteModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Delete Recommendation Rating";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <h3 class="text-danger">Are you sure you want to delete this? This action cannot be undone.</h3>
+    <div>
+        <h4>Rating Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">History Id</dt>
+            <dd class="col-sm-9">
+                @Model.RecRating.History?.HistoryId
+
+            </dd>
+
+            <dt class="col-sm-3">Lecturer</dt>
+            <dd class="col-sm-9">
+                @Model.RecRating.RecommendedLecturer?.SvName
+            </dd>
+
+            <dt class="col-sm-3">Rating</dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.RecRating.SubmittedRating)
+            </dd>
+
+            <dt class="col-sm-3">Submitted At</dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.RecRating.SubmittedAt)
+            </dd>
+        </dl>
+
+        <form method="post">
+            <input type="hidden" asp-for="RecRating.RatingId" />
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

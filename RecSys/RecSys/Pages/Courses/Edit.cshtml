@@ -1,0 +1,54 @@
+@page
+@model RecSys.Pages_Courses.EditModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Course";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Course.CourseId" />
+
+                <div class="form-group">
+                    <label asp-for="Course.CourseCode" class="control-label">Course Code</label>
+                    <input asp-for="Course.CourseCode" class="form-control" />
+                    <span asp-validation-for="Course.CourseCode" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Course.CourseName" class="control-label">Course Name</label>
+                    <input asp-for="Course.CourseName" class="form-control" />
+                    <span asp-validation-for="Course.CourseName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Course.Abbreviations" class="control-label">Abbreviation</label>
+                    <input asp-for="Course.Abbreviations" class="form-control" />
+                    <span asp-validation-for="Course.Abbreviations" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a asp-page="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

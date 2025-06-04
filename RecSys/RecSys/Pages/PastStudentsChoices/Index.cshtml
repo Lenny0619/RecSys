@@ -1,0 +1,45 @@
+@page
+@model RecSys.Pages_PastStudentsChoices.IndexModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Past Student Choices";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Lecturer</th>
+                <th>Project Focus</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PastStudentsChoice)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.StudentId)</td>
+                    <td>
+                        @{
+                            var lecturer = Model.Lecturers.FirstOrDefault(l => l.SvId == item.SvId);
+                            @(lecturer?.SvName ?? $"ID: {item.SvId}")
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectFocus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                    <td>
+                        <a asp-page="./Delete" asp-route-id="@item.StudentId" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

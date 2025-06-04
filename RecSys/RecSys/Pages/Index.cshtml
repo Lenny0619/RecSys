@@ -1,0 +1,64 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "HomePage";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+
+<div class="container">
+    <form method="post" asp-page-handler="Async">
+        <div class="form-box">
+            <h3 class="preferred-course-title">Preferred Courses</h3>
+
+            <div class="wrap-input-1">
+                <select asp-for="Course1" asp-items="Model.CourseOptions" class="form-control">
+                    <option value="">Select Course 1</option>
+                </select>
+                <span asp-validation-for="Course1" class="text-danger"></span>
+            </div>
+
+            <div class="wrap-input-1">
+                <select asp-for="Course2" asp-items="Model.CourseOptions" class="form-control">
+                    <option value="">Select Course 2</option>
+                </select>
+                <span asp-validation-for="Course2" class="text-danger"></span>
+            </div>
+
+            <div class="wrap-input-1">
+                <select asp-for="Course3" asp-items="Model.CourseOptions" class="form-control">
+                    <option value="">Select Course 3</option>
+                </select>
+                <span asp-validation-for="Course3" class="text-danger"></span>
+            </div>
+
+            <h3 class="project-focus-title">Project Focus</h3>
+            <select asp-for="ProjectFocus" class="input">
+                <option value="">Select project focus</option>
+                <option value="Web_Development">Web Development</option>
+                <option value="Mobile_App">Mobile App</option>
+                <option value="Game_Development">Game Development</option>
+                <option value="CyberSecurity">CyberSecurity</option>
+                <option value="Computer_Vision">Computer Vision</option>
+                <option value="AI">Artificial Intelligence</option>
+                <option value="AR">Augmented Reality</option>
+                <option value="IoT">IoT</option>
+            </select>
+            <span asp-validation-for="ProjectFocus" class="text-danger"></span>
+
+            <button type="submit" class="btn-gradient-20">Submit</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 确保表单提交时显示加载状态
+            document.querySelector('form').addEventListener('submit', function() {
+                this.querySelector('button[type="submit"]').disabled = true;
+            });
+        });
+    </script>
+}

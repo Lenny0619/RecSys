@@ -1,0 +1,53 @@
+@page
+@model RecSys.Pages_Courses.IndexModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Courses";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="table-container">
+    <p>
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New
+        </a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course Id</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Abbreviation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Course)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CourseCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CourseName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Abbreviations)</td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a asp-page="./Edit" asp-route-id="@item.CourseId" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-page="./Details" asp-route-id="@item.CourseId" class="btn btn-sm btn-info">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@item.CourseId" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

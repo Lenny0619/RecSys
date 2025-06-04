@@ -1,0 +1,264 @@
+﻿/* Header styling */
+header.navbar-fixed-top {
+    margin-top: -50px; /* Moves the navbar content upwards further */
+}
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 20px; /* Reduced top margin further */
+    padding: 0 20px;
+}
+
+h1 {
+    text-align: left;
+    font-weight: bold;
+    color: white;
+    font-size: 1.8em;
+    margin-bottom: 20px; /* Slightly reduced bottom margin */
+    margin-top: 50px; /* Moves the heading up more */
+}
+
+/* Summary section */
+.summary {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 20px;
+    margin-bottom: 37px;
+    max-width: 1200px;
+    font-size: 17px;
+    color: black;
+}
+
+    .summary p {
+        margin: 10px 0;
+    }
+
+/* Card container styling */
+.card-container {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Card styling */
+.card {
+    background-color: #f8f9fa;
+    width: 340px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden; /* Prevent content overflow */
+    position: relative;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+    .card:hover {
+        border: 2px solid #FFD700; /* Yellow border on hover */
+        box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.6); /* Lightning glow effect */
+    }
+
+/* Badge styling */
+.badge {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    background-color: #FFD700; /* Gold color */
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Card top section */
+.card-top {
+    text-align: center;
+    padding: 20px; /* Further reduced padding to move content up */
+}
+
+    .card-top img {
+        width: 220px; /* Larger size */
+        height: 180px; /* Oval shape */
+        border-radius: 50%; /* Creates an oval shape */
+        border: 3px solid #ddd; /* Optional: Subtle border for the image */
+        transition: transform 0.3s ease;
+    }
+
+        .card-top img:hover {
+            transform: scale(1.1); /* Slight zoom-in effect on hover */
+        }
+
+    .card-top h2 {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #333;
+        margin-top: 8px; /* Further reduced space between image and name */
+    }
+
+/* Card middle section */
+.card-middle {
+    padding: 15px;
+    font-size: 14px;
+}
+
+    .card-middle p {
+        margin: 5px 0;
+    }
+
+/* Card bottom section */
+.card-bottom {
+    background-color: #d6d6d6;
+    padding: 20px;
+    font-size: 14px;
+    color: #000;
+    text-align: left;
+    width: 109%; /* Extends beyond card width */
+    min-height: 100px;
+    box-sizing: border-box;
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* Needed for proper positioning */
+    left: 5%; /* Pulls the element left by 25% of its width */
+    transform: translateX(-9%); /* Fine-tunes the positioning */
+    margin-left: 0%;
+}
+
+    .card-bottom p {
+        margin: 5px 0;
+        text-align: left;
+        line-height: 1.4;
+    }
+
+    /* Expertise and Taught course(s) alignment */
+    .card-bottom .expertise,
+    .card-bottom .taught-course {
+        margin: 0;
+        padding: 0;
+        text-align: left;
+    }
+
+        .card-bottom .expertise strong,
+        .card-bottom .taught-course strong {
+            color: #000;
+            display: inline-block;
+            margin: 0 5px 0 0;
+            padding: 0;
+            text-align: left;
+        }
+
+.pro-badge {
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    background-color: #FFD700; /* Bright Yellow */
+    color: black;
+    font-weight: bold;
+    padding: 3px 10px; /* Adjusted padding for a compact look */
+    border-radius: 8px; /* More rounded corners */
+    font-size: 11px; /* Adjust font size to match */
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    min-width: auto;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.card-row {
+    display: flex !important;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.section-divider {
+    all: unset;
+    display: block;
+    height: 20px;
+    background-color: #e0e0e0;
+    margin: 40px auto 20px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.other-recommendations-heading {
+    color: #8c52ff;
+    font-weight: 600;
+    margin: 40px 0 20px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.card {
+    position: relative; /* Needed for absolute positioning of badge */
+}
+
+/* Back button styling */
+.btn-back {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.5em 1.5em;
+    border: none;
+    border-radius: 50px;
+    background-color: #8c52ff; /* Purple color */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+    .btn-back:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        color: white;
+    }
+
+/* Optional: Make sure it has a bit of spacing if it's near other elements */
+.btn-back-wrapper {
+    margin-top: 10px;
+}
+
+.reference-note {
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+    }
+}

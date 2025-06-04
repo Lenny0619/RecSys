@@ -1,0 +1,38 @@
+@page
+@model RecSys.Pages_RecRatings.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Recommendation Rating Details";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div>
+        <h4>Rating Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">History ID</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.RecRating.History.HistoryId)</dd>
+
+            <dt class="col-sm-3">Lecturer</dt>
+            <dd class="col-sm-9">@Model.RecRating.RecommendedLecturer?.SvName (ID: @Model.RecRating.RecommendedLecturer?.SvId)</dd>
+
+            <dt class="col-sm-3">Rating</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.RecRating.SubmittedRating)</dd>
+
+            <dt class="col-sm-3">Submitted At</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.RecRating.SubmittedAt)</dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-page="./Edit" asp-route-id="@Model.RecRating?.RatingId" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        <a asp-page="./Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

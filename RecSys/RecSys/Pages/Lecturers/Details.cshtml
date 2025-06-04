@@ -1,0 +1,70 @@
+@page
+@model RecSys.Pages_Lecturers.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Lecturer Details";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="form-container">
+    <div>
+        <h4>Lecturer Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.SvId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lecturer.SvId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.SvName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lecturer.SvName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.SvExpertise)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lecturer.SvExpertise)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.Eligibility)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lecturer.Eligibility)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lecturer.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Lecturer.ImagePath)
+            </dt>
+            <dd class="col-sm-10">
+                @if (!string.IsNullOrEmpty(Model.Lecturer.ImagePath))
+                {
+                    <img src="@Model.Lecturer.ImagePath" class="img-thumbnail" style="max-height: 200px;" alt="Lecturer Image" />
+                }
+                else
+                {
+                    <span class="text-muted">No image available</span>
+                }
+            </dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-page="./Edit" asp-route-id="@Model.Lecturer?.SvId" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        <a asp-page="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

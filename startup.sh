@@ -4,7 +4,7 @@
 mkdir -p /home/logs
 
 # Enter app directory
-cd /home/site/wwwroot
+cd /home/site/wwwroot/RecSys
 
 # Enable logging
 exec > >(tee -a /home/logs/startup.log) 2>&1
@@ -20,15 +20,15 @@ echo "Installing dependencies..."
 echo "Installed packages:"
 /opt/python/3.9.22/bin/python -m pip list >> /home/logs/startup.log
 
-# Start Gunicorn with preload
+# Start Gunicorn with correct Flask app reference
 echo "Starting Gunicorn..."
 exec /opt/python/3.9.22/bin/gunicorn \
   --bind 0.0.0.0:8000 \
   --timeout 900 \
-  --preload \  # Load app before forking
+  --preload \
   --workers 1 \
   --worker-class=sync \
   --log-level debug \
   --access-logfile /home/logs/access.log \
   --error-logfile /home/logs/error.log \
-  RecSys.app:app
+  app:app

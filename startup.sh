@@ -14,7 +14,7 @@ date
 # Install dependencies with explicit paths
 echo "Installing dependencies..."
 /opt/python/3.9.22/bin/python -m pip install --upgrade pip
-/opt/python/3.9.22/bin/python -m pip install --no-cache-dir --user -r requirements.txt
+/opt/python/3.9.22/bin/python -m pip install --no-cache-dir --user --force-reinstall -r requirements.txt
 
 # Verify installation
 echo "Installed packages:"

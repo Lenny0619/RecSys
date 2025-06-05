@@ -28,7 +28,7 @@ python -c "import numpy, pandas; print(f'numpy:{numpy.__version__}, pandas:{pand
 # Start Gunicorn with optimized settings for Azure B3 plan
 exec gunicorn --bind 0.0.0.0:8000 \
               --timeout 600 \
-              --workers 4 \
+              --workers 2 \
               --threads 2 \
               --worker-class gthread \
               --access-logfile - \

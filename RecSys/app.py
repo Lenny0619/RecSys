@@ -38,14 +38,6 @@ scheduler.start()
 def health_check():
     """Endpoint for health checks"""
     return jsonify({"status": "healthy"}), 200
-    
-def test_db_connection():
-    try:
-        with engine.connect() as connection:
-            result = connection.execute("SELECT 1")
-            return f"DB connection successful! Test result: {result.scalar()}"
-    except Exception as e:
-        return f"Error: {str(e)}"
 
 @app.route('/retrain', methods=['POST'])
 def retrain_model():
